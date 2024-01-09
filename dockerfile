@@ -2,7 +2,7 @@ FROM python:3.10
 
 WORKDIR /app
 COPY . .
-RUN pip install flask
+RUN pip install --no-cache-dir flask
 EXPOSE 5000
 ENV FLASK_APP=main.py
 
