@@ -1,9 +1,11 @@
-FROM python:3.10
+FROM python:3.10-alpine
 
-WORKDIR /app
-COPY . .
-RUN pip install flask
-EXPOSE 5000
-ENV FLASK_APP=main.py
+WORKDIR /flask_app
 
-CMD ["flask", "run", "--host", "0.0.0.0"]
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app/ .
+
+CMD ["python", "main.py"]
