@@ -1,21 +1,25 @@
 pipeline {
-    agent any
-    tools{
-        maven 'maven_3.9'
+  agent any
+
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t my-flask-app .'
+        sh 'docker tag my-flask-app $DOCKER_BFLASK_IMAGE'
+      }
     }
-    stages{
-        stage('Build Maven'){
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/SOURHEAD/everlong']]])
-                sh 'mvn clean install'
-            }
+    stage('Deploy') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+          sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
+          sh 'docker push $DOCKER_BFLASK_IMAGE'
         }
-        stage('Build docker image'){
-            steps{
-                script{
-                    sh 'docker build -t Sourhead\everlong .'
-                }
-            }
-        }
+      }
     }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }
