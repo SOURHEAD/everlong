@@ -5,7 +5,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'docker build -t everlong-app .'
-        sh 'docker tag my-flask-app $DOCKER_BFLASK_IMAGE'
+        sh 'docker tag everlong-app $DOCKER_BFLASK_IMAGE'
       }
     }
     stage('Test') {
