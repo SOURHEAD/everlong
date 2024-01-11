@@ -1,5 +1,4 @@
 import unittest
-from main import request_get
 import requests
 def request_get(url):
     print("Sending request to ", url)
