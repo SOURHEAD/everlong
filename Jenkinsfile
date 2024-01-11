@@ -10,7 +10,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'docker run -v /var/lib/jenkins/workspace/everlong_pipeline:/flask_app everlong-app python -m unittest discover -s /flask_app -p "tests.py"'
+        sh 'docker run everlong-app python -m unittest "tests.py"'
       }
     }
     stage('Deploy') {
