@@ -1,4 +1,3 @@
-import requests
 import unittest
 from main import request_get
 
