@@ -4,13 +4,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t everlong-app .'
-        sh 'docker tag everlong-app $DOCKER_BFLASK_IMAGE'
+        sh 'docker build -t flask-pipeline .'
+        sh 'docker tag flask-pipeline $DOCKER_BFLASK_IMAGE'
       }
     }
     stage('Test') {
       steps {
-        sh 'docker run everlong-app python -m unittest "tests.py"'
+        sh 'docker run flask-pipeline python -m unittest tests.py'
       }
     }
     stage('Deploy') {
